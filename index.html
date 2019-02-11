@@ -12,41 +12,55 @@
 
 		<div class="container">
 
-			<div class="header">
+			<div class="middleContent">
 				<h2>FORM GENERATOR</h2>
-				<input id="formName" class="inputLeftPos" type="text" name="formName">
-				<button id="addForm" class="buttonRightPos">add</button>
 				
 			</div>
 			
 			<div class="main">
 			
 				<div class="menuOptions">
-					<div>
-						<h2>Article title</h2>
-						<p>Posted on <time datetime="2009-09-04T16:31:24+02:00">September 4th 2009</time> by <a href="#">Writer</a> - <a href="#comments">6 comments</a></p>
-					</div>
-					<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+					<button id="addForm">add question</button>
+					<p>Note: double click for edit the texts.</p>
 				</div>
 				
-				<div class="currentForm">
-					<div>
-						<h2>Article title</h2>
-						<p>Posted on <time datetime="2009-09-04T16:31:24+02:00">September 4th 2009</time> by <a href="#">Writer</a> - <a href="#comments">6 comments</a></p>
+				<div class="form">
+					<h2>Options:</h2>
+					<button class="addQuestion leftPos">add question</button>
+
+					<select class="input rightPos">
+						<option value="text">Text</option>
+						<option value="password">Password</option>
+						<option value="radio">Radio</option>
+						<option value="checkbox">Checkbox</option>
+						<option value="date">(H5) Date</option>
+						<option value="time">(H5) Time</option>
+						<option value="datetime">(H5) Datetime</option>
+						<option value="month">(H5) Month</option>
+						<option value="week">(H5) Week</option>
+						<option value="number">(H5) Number</option>
+						<option value="range">(H5) Range</option>
+						<option value="color">(H5) Color</option>
+						<option value="email">(H5) Email</option>
+						<option value="file">(H5) File</option>
+						<option value="tel">(H5) Tel</option>
+						<option value="url">(H5) Url</option>
+						<option value="search">(H5) Search</option>
+					</select>
+
+					<br>
+					<br>
+					<h2>Your corrent form:</h2>
+					<div id="form">
 					</div>
-					<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
 				</div>
 				
 			</div>
 
-			<div class="menuForms">
-				<h2>About section</h2>
-				<p>Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+			<div class="middleContent">
+				<input id="formName" class="inputLeftPos" type="text" name="formName">
+				<button id="generateJSON" class="">Generate JSON</button>
 			</div>
-
-			<footer>
-				<p>Copyright 2009 Your name</p>
-			</footer>
 
 		</div>
 
