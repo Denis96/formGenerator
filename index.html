@@ -16,50 +16,59 @@
 				<h2>FORM GENERATOR</h2>
 				
 			</div>
-			
-			<div class="main">
-			
-				<div class="menuOptions">
-					<button id="addForm">add question</button>
-					<p>Note: double click for edit the texts.</p>
-				</div>
-				
-				<div class="form">
-					<h2>Options:</h2>
-					<button class="addQuestion leftPos">add question</button>
 
-					<select class="input rightPos">
-						<option value="text">Text</option>
-						<option value="password">Password</option>
-						<option value="radio">Radio</option>
-						<option value="checkbox">Checkbox</option>
-						<option value="date">(H5) Date</option>
-						<option value="time">(H5) Time</option>
-						<option value="datetime">(H5) Datetime</option>
-						<option value="month">(H5) Month</option>
-						<option value="week">(H5) Week</option>
-						<option value="number">(H5) Number</option>
-						<option value="range">(H5) Range</option>
-						<option value="color">(H5) Color</option>
-						<option value="email">(H5) Email</option>
-						<option value="file">(H5) File</option>
-						<option value="tel">(H5) Tel</option>
-						<option value="url">(H5) Url</option>
-						<option value="search">(H5) Search</option>
-					</select>
-
-					<br>
-					<br>
-					<h2>Your corrent form:</h2>
-					<div id="form">
-					</div>
-				</div>
-				
+			<div class="generateFormDiv">
+				<button id="generateForm" class="leftPos">New Form</button>
+				<input type="text" class="rightPos" id="formNameText" name="formName" placeholder="Form name">
 			</div>
+			
+			<div id="formContainer" hidden="true">
 
-			<div class="middleContent">
-				<input id="formName" class="inputLeftPos" type="text" name="formName">
-				<button id="generateJSON" class="">Generate JSON</button>
+				<div class="main">
+					<h2>Your corrent form:</h2>
+					
+					<div class="currentForm">
+						<div id="form">
+							<h2 id="formName">Form Name: 
+								<span class="showName">Form name</span>
+								<input type="text" class="hiddenName" hidden="hidden">
+							</h2>
+						</div>
+						<hr>
+						<div class="menuOptions">
+							<p>
+								<span class="h2">Options: </span>
+
+								<button id="addQuestion" class="buttonColorAdd leftPos">add text</button>
+								<button id="addQuestion" class="buttonColorAdd middlePos">add password</button>
+								<button id="addQuestion" class="buttonColorAdd middlePos">add radio</button>
+								<button id="addQuestion" class="buttonColorAdd rightPos">add checkbox</button>
+
+								<button id="addQuestion" class="leftPos">add other type</button>
+								<select class="input rightPos">
+									<option value="date">(H5) Date</option>
+									<option value="time">(H5) Time</option>
+									<option value="datetime">(H5) Datetime</option>
+									<option value="month">(H5) Month</option>
+									<option value="week">(H5) Week</option>
+									<option value="number">(H5) Number</option>
+									<option value="range">(H5) Range</option>
+									<option value="color">(H5) Color</option>
+									<option value="email">(H5) Email</option>
+									<option value="file">(H5) File</option>
+									<option value="tel">(H5) Tel</option>
+									<option value="url">(H5) Url</option>
+									<option value="search">(H5) Search</option>
+								</select>
+							</p>
+							<div class="middleContent">
+								<input type="text" class="leftPos" id="jsonName" name="jsonName" placeholder="Filename">
+								<button id="generateJSON" class="rightPos">Export form</button>
+							</div>
+						</div>
+					</div>
+					
+				</div>
 			</div>
 
 		</div>

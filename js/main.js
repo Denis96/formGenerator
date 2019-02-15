@@ -1,119 +1,159 @@
 
 $(document).ready(function(){
+	var showForm = null;
 	var form = null;
+	var formName = null;
 	var legend = null;
+	var hiddenNames = null;
 	var label = null;
-	var addForm = null;
-	var delForm = null;
 	var addQuestion = null;
 	var delQuestion = null;
 	var swapQuestion = null;
 	var addOption = null;
+		var addSubOption = null;
+		var delSubOption = null;
 	var delOption = null;
+	var generateJSON = null;
 
 	updateEvents();
 
-	var questionsCounter = 0;
+	var questionsCounter = 1;
 
 
 
 	function updateEvents() {
-		form = $(".form");
+		// Search all elements
+			showForm = $("#generateForm");
+			form = $("#form");
+			formName = $("#formName > span");
+			legend = $("legend > span");
+			label = $("label");
+			hiddenNames = $(".hiddenName");
+			addQuestion = $("#addQuestion");
+			delQuestion = $(".delQuestion");
+			swapQuestion = $(".swapQuestion");
+			addOption = $(".addOption");
+				addSubOption = $(".addSubOption");
+				delSubOption = $(".delSubOption");
+			delOption = $(".delOption");
+			generateJSON = $("#generateJSON");
 
-		addForm = $("#addForm");
-		delForm = $(".delForm");
-		addQuestion = $(".addQuestion");
-		delQuestion = $(".delQuestion");
-		swapQuestion = $(".swapQuestion");
-		addOption = $(".addOption");
-		delOption = $(".delOption");
-		legend = $("legend");
-		label = $("label");
+		//	Delete all assigned events 
+			formName.unbind();
+			legend.unbind();
+			label.unbind();
+			hiddenNames.unbind();
+			addQuestion.unbind();
+			delQuestion.unbind();
+			swapQuestion.unbind();
+			addOption.unbind();
+				addSubOption.unbind();
+				delSubOption.unbind();
+			delOption.unbind();
+			generateJSON.unbind();
 
-		addForm.unbind();
-		delForm.unbind();
-		addQuestion.unbind();
-		delQuestion.unbind();
-		swapQuestion.unbind();
-		addOption.unbind();
-		delOption.unbind();
-		legend.unbind();
-		label.unbind();
-
-		//addForm.click(generateFormFunction);
-		delForm.click(removeParentFunction);
-		addQuestion.click(generateQuestionFunction);
-		delQuestion.click(removeParentFunction);
-		swapQuestion.click(swapOptionsTypeFunction);
-		addOption.click(addOptionFunction);
-		delOption.click(removeParentFunction);
-		legend.dblclick(changeNameFunction);
-		label.dblclick(changeNameFunction);
+		//	Returns assign events
+			showForm.click(showFormFunction);
+			formName.dblclick(changeNameShowInputFunction);
+			legend.dblclick(changeNameShowInputFunction);
+			label.dblclick(changeNameShowInputFunction);
+			hiddenNames.keypress(changeFocusFunction);
+			hiddenNames.focusout(changeNameShowTextFunction);
+			addQuestion.click(generateQuestionFunction);
+			delQuestion.click(removeParentFunction);
+			swapQuestion.click(swapOptionsTypeFunction);
+			addOption.click(addOptionFunction);
+				addSubOption.click(addSubOptionFunction);
+				delSubOption.click(removeSubOptionFunction);
+			delOption.click(removeParentFunction);
+			generateJSON.click(prepareDownload);
 	}
 
-	function generateFormFunction() {/*
-						<option value="text">Text</option>
-						<option value="password">Password</option>
-						<option value="radio">Radio</option>
-						<option value="checkbox">Checkbox</option>
-						<option value="date">(H5) Date</option>
-						<option value="time">(H5) Time</option>
-						<option value="datetime">(H5) Datetime</option>
-						<option value="month">(H5) Month</option>
-						<option value="week">(H5) Week</option>
-						<option value="number">(H5) Number</option>
-						<option value="range">(H5) Range</option>
-						<option value="color">(H5) Color</option>
-						<option value="email">(H5) Email</option>
-						<option value="file">(H5) File</option>
-						<option value="tel">(H5) Tel</option>
-						<option value="url">(H5) Url</option>
-						<option value="search">(H5) Search</option>*/
-						
+	function showFormFunction() {
+		var formName = $(this).parent().children("#formNameText").val();
+		if (formName != "") {
+			$("#formName > .showName").text(formName);
+			$(this).parent().remove();
+			$("#formContainer").removeAttr("hidden");
+		}
 	}
 
 	function generateQuestionFunction() {
-		// create "fieldset" element with id
-		var fieldset = document.createElement("fieldset");
-		fieldset.setAttribute("id", ("question"+questionsCounter) );
+		//	Create "fieldset" element with id
+			var fieldset = document.createElement("fieldset");
+			fieldset.setAttribute("id", ("question"+questionsCounter) );
 
-		var legend = document.createElement("legend");
-		var legendContent = document.createTextNode("Sample");
+			var legend = document.createElement("legend");
+			var legendSpan = document.createElement("span");
+			legendSpan.setAttribute("class", "showName legendSpan" );
+
+			var legendContent = document.createTextNode("Question "+questionsCounter);
+
+			var hiddenName = document.createElement("input");
+			hiddenName.setAttribute("type", "text" );
+			hiddenName.setAttribute("hidden", "true" );
+			hiddenName.setAttribute("class", "hiddenName" );
+
+
+		//	Create 3 hidden inputs for control the question
+			var hiddenQuestion = document.createElement("input");
+			hiddenQuestion.setAttribute("type", "hidden" );
+			hiddenQuestion.setAttribute("class", "questionId" );
+			hiddenQuestion.setAttribute("name", "questionId" );
+			hiddenQuestion.setAttribute("value", questionsCounter );
+
+			var hiddenOptionsNumber = document.createElement("input");
+			hiddenOptionsNumber.setAttribute("type", "hidden" );
+			hiddenOptionsNumber.setAttribute("class", "optionsNumber" );
+			hiddenOptionsNumber.setAttribute("name", "optionsNumber" );
+			hiddenOptionsNumber.setAttribute("value", 2 );
+
+			var hiddenOptionsType = document.createElement("input");
+			hiddenOptionsType.setAttribute("type", "hidden" );
+			hiddenOptionsType.setAttribute("class", "optionsType" );
+			hiddenOptionsType.setAttribute("name", "optionsType" );
+			hiddenOptionsType.setAttribute("value", "radio" );
 		
-		$(legend).append(legendContent);
+			$(legendSpan).append(legendContent);
+			$(legend).append(legendSpan);
+			$(legend).append(hiddenName);
 		$(fieldset).append(legend);
+		$(fieldset).append(hiddenQuestion);
+		$(fieldset).append(hiddenOptionsNumber);
+		$(fieldset).append(hiddenOptionsType);
 
-		// Create a "div" with 2 options
+		//	Create a "div" with 2 options
 			var div = document.createElement("div");
+			div.setAttribute("class", "options" );
 			for (var i = 1 ; i <= 2 ; i++) {
-				$(div).append( patternRadioFunction(i) );
+				$(div).append( patternOptionRadioFunction(i, questionsCounter, "radio") );
 			}
 			$(fieldset).append(div);
 
+		//	Create a Add, Delete
+			var buttonAdd = document.createElement("button");
+			buttonAdd.setAttribute("class", "addOption" );
+			var buttonAddContent = document.createTextNode("add");
+			$(buttonAdd).append(buttonAddContent);
 
-		var buttonAdd = document.createElement("button");
-		buttonAdd.setAttribute("class", "addOption" );
-		var buttonAddContent = document.createTextNode("add");
-		$(buttonAdd).append(buttonAddContent);
+			var buttonDelete = document.createElement("button");
+			buttonDelete.setAttribute("class", "buttonColorDel" );
+			var buttonDeleteContent = document.createTextNode("delete question");
+			$(buttonDelete).append(buttonDeleteContent);
 
-		var buttonDelete = document.createElement("button");
-		buttonDelete.setAttribute("class", "delQuestion" );
-		var buttonDeleteContent = document.createTextNode("del");
-		$(buttonDelete).append(buttonDeleteContent);
-
-		var buttonSwap = document.createElement("button");
-		buttonSwap.setAttribute("class", "swapQuestion" );
-		var buttonSwapContent = document.createTextNode("swap");
-		$(buttonSwap).append(buttonSwapContent);
+			/*var buttonSwap = document.createElement("button");
+			buttonSwap.setAttribute("class", "swapQuestion" );
+			var buttonSwapContent = document.createTextNode("swap");
+			$(buttonSwap).append(buttonSwapContent);*/
 		
 		var br = document.createElement("br");
 
 		$(fieldset).append(br);
 		$(fieldset).append(buttonAdd);
 		$(fieldset).append(buttonDelete);
-		$(fieldset).append(buttonSwap);
+		//$(fieldset).append(buttonSwap);
 
-		$(this).parent().append(fieldset);
+		$(form).append(fieldset);
 
 		questionsCounter++;
 
@@ -121,47 +161,230 @@ $(document).ready(function(){
 
 	}
 
-	function patternRadioFunction(i) {
+	// Returns a div with 2 options
+	function patternOptionRadioFunction(number, currentQuestion, optionType, level) {
 		var div = document.createElement("div");
 
-		var buttonDelete = document.createElement("button");
-		buttonDelete.setAttribute("class", "delOption" );
-		var buttonDeleteContent = document.createTextNode("X");
-		$(buttonDelete).append(buttonDeleteContent);
+		//	Delete button
+			var buttonDelete = document.createElement("button");
+			buttonDelete.setAttribute("class", "delOption buttonOption buttonColorDel" );
+			var buttonDeleteContent = document.createTextNode("X");
+			$(buttonDelete).append(buttonDeleteContent);
 
-		var input = document.createElement("input");
-		input.setAttribute("type", "radio" );
-		input.setAttribute("name", "sample" );
-		input.setAttribute("id", ("opt"+questionsCounter+"-"+i) );
-		input.setAttribute("name", ("question"+questionsCounter) );
+			if ( level!=2 ) { ////////////////////////// cambiar cuando se cambie la generacion de preguntas
+				//	Delete button
+					var buttonDelete = document.createElement("button");
+					buttonDelete.setAttribute("class", "delOption buttonOption buttonColorDel" );
+					var buttonDeleteContent = document.createTextNode("X");
+					$(buttonDelete).append(buttonDeleteContent);
 
-		var label = document.createElement("label");
-		label.setAttribute("for", ("opt"+questionsCounter+"-"+i) );
-		var labelContent = document.createTextNode(("Option "+i));
-		$(label).append(labelContent);
+				//	Add button
+					var buttonAdd = document.createElement("button");
+					buttonAdd.setAttribute("class", "addSubOption buttonOption buttonColorAdd" );
+					var buttonAddContent = document.createTextNode("+");
+					$(buttonAdd).append(buttonAddContent);
+			} else {
+				//	Delete button
+					var buttonDelete = document.createElement("button");
+					buttonDelete.setAttribute("class", "delSubOption buttonOption buttonColorDel" );
+					var buttonDeleteContent = document.createTextNode("X");
+					$(buttonDelete).append(buttonDeleteContent);
+			}
 
-		var br = document.createElement("br");
+		//	Input (radio or checkbox (+15))
+			var input = document.createElement("input");
+			input.setAttribute("type", optionType );
+			input.setAttribute("disabled", "disabled" );
+			input.setAttribute("id", ("opt"+currentQuestion+"-"+number) );
+			input.setAttribute("name", ("question"+currentQuestion) );
 
-			$(div).append(buttonDelete);
-			$(div).append(input);
-			$(div).append(label);
-			$(div).append(br);
+		//	Label for input
+			var label = document.createElement("label");
+			label.setAttribute("class", "showName" );
+			label.setAttribute("for", ("opt"+currentQuestion+"-"+number) );
+			var labelContent = document.createTextNode(("New option"));
+			$(label).append(labelContent);
+
+			var hiddenName = document.createElement("input");
+			hiddenName.setAttribute("type", "text" );
+			hiddenName.setAttribute("hidden", "true" );
+			hiddenName.setAttribute("class", "hiddenName" );
+
+		$(div).append(buttonDelete);
+		$(div).append(buttonAdd);
+		$(div).append(input);
+		$(div).append(label);
+		$(div).append(hiddenName);
 
 		return div;
 	}
 
 	function addOptionFunction() {
-		$(this).parent().children("div").append( patternRadioFunction(3) );
+		//	Info for greate a option
+			var currentQuestion = $(this).parent().children(".questionId").attr("value");
+			var optionType = $(this).parent().children(".optionsType").attr("value");
+
+			var optionsNumber = parseInt( $(this).parent().children(".optionsNumber").attr("value") )+1;
+			$(this).parent().children(".optionsNumber").attr("value", optionsNumber);
+
+
+		$(this).parent().children("div").append( patternOptionRadioFunction(optionsNumber, currentQuestion, optionType) );
+		updateEvents();
+	}
+
+	function addSubOptionFunction() {
+		if( !$(this).parent().has(".subOption").length ) {
+			var div = document.createElement("div");
+			div.setAttribute("class", "subOption" );
+			$(this).parent().append( div );
+
+			var hiddenOptionId = document.createElement("input");
+			hiddenOptionId.setAttribute("type", "hidden" );
+			hiddenOptionId.setAttribute("class", "optionId" );
+			hiddenOptionId.setAttribute("name", "optionId" );
+			hiddenOptionId.setAttribute("value", 1 );
+
+			var hiddenOptionsNumber = document.createElement("input");
+			hiddenOptionsNumber.setAttribute("type", "hidden" );
+			hiddenOptionsNumber.setAttribute("class", "optionsNumber" );
+			hiddenOptionsNumber.setAttribute("name", "optionsNumber" );
+			hiddenOptionsNumber.setAttribute("value", 1 );
+
+			$(this).parent().children(".subOption").append( hiddenOptionId );
+			$(this).parent().children(".subOption").append( hiddenOptionsNumber );
+		}
+
+		var optionsNumber = $(this).parent().children(".subOption").children(".optionId").val();
+		var optionId = $(this).parent().children(".subOption").children(".optionsNumber").val();
+
+		$(this).parent().children(".subOption").append( patternOptionRadioFunction(optionsNumber, optionId, "radio", 2) );
+		updateEvents();
+	}
+
+	function removeSubOptionFunction() {
+		console.log($(this).parent().children("div"));
+		$(this).parent().parent().children("div").length <= 1 ?
+				$(this).parent().parent().remove() :
+				$(this).parent().remove();
+
 	}
 
 	function removeParentFunction() {
 		$(this).parent().remove();
 	}
 
-	function changeNameFunction() {
-		var content = prompt("", $(this).html());
-		if (content != "") {
-			$(this).html(content);
+	function swapOptionsTypeFunction() {
+		var options = $(this).parent();
+		if ( options.children(".optionsType").attr("value") == "radio" ) {
+			options.children("div").children("div").children("input").attr( "type","checkbox" );
+			options.children(".optionsType").attr("value", "checkbox");
+		} else {
+			options.children("div").children("div").children("input").attr( "type","radio" );
+			options.children(".optionsType").attr("value","radio");
 		}
 	}
+
+	function changeNameShowInputFunction() {
+		var hiddenName = $(this).parent().children(".hiddenName");
+		hiddenName.val( $(this).text() );
+		hiddenName.removeAttr("hidden");
+		hiddenName.focus();
+		$(this).attr("hidden","true");
+	}
+
+	function changeNameShowTextFunction() {
+		var hiddenName = $(this).parent().children(".showName");
+		$(this).val() != "" ? hiddenName.text( $(this).val() ) : "";
+		hiddenName.removeAttr("hidden");
+		$(this).attr("hidden","true");
+	}
+
+	function changeFocusFunction(e) {
+		if (e.key == "Enter") {
+			e.preventDefault();
+			$(this).blur();
+		}
+	}
+	function camelize(str) {
+		return str.replace(/\W+(.)/g, function(match, chr)
+			{
+				return chr.toUpperCase();
+			});
+	}
+
+	//////	JSON Funtion 
+		function generateJSONFunction() {
+			var content = "{";
+				content += "\"name\": \""+ $(form).children("#formName").children(".showName").text() +"\",";
+				content += "\"rows\": [ {";
+					content += "\"idTablet\": \"TABLET8\",";
+					content += "\"version\": \"1.1\",";
+					content += "\"questions\": [ {";
+						content += "\"question\": \" \",";
+						content += "\"type\": \"HOME\"}";
+
+						//	opcions from the form
+						$(form).children("fieldset").each(function( index ) {
+							content += ", {";
+							content += "\"question\": \""+ $(this).children("legend").children(".showName").text() +"\",";
+							content += "\"type\": \""
+								switch ( $(this).children(".optionsType").val() ) {
+									case "radio":		content += "OPTIONS";			break;
+									case "checkbox":	content += "MULTIPLE_OPTIONS";	break;
+									default:	console.log("ERROR: unexpected form type");
+												console.log($(this).children(".optionsType")); ;
+								}
+								content += "\",";
+							content += "\"options\": [";
+							$(this).children(".options").children("div").each(function( index ) {
+								content += "\""+ $(this).children("label").text();
+
+								if( $( this ).has( ".subOption" ).length ) {
+									content += "::";
+									$(this).children(".subOption").children("div").each(function( indexSubOption ) {
+										content += $(this).children("label").text();
+										if (indexSubOption+1 != $(this).parent().children("div").length) {
+											content += ",";
+										}
+									});
+								}
+
+								content += "\"";
+								if (index+1 != $(this).parent().children("div").length) {
+									content += ", ";
+								}
+							});
+							content += "] }";
+						});
+
+						//	final log
+						content += ", {";
+						content += "\"questions\": \"Tot Correcte?\",";
+						content += "\"type\": \"FINAL_LOG\"";
+						content += "} ]";
+					content += "} ]";
+				content += "}";
+			return content;
+		}
+
+
+	//////	Functions for download 
+		function prepareDownload() {
+			var jsonName = $("#jsonName").val();
+			var contentJson = generateJSONFunction();
+			console.log(contentJson);
+			jsonName!="" ? download(jsonName+".json", contentJson) : download("your_json.json", contentJson);
+		}
+		function download(filename, text) {
+			var element = document.createElement('a');
+			element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+			element.setAttribute('download', filename);
+
+			element.style.display = 'none';
+			document.body.appendChild(element);
+
+			element.click();
+
+			document.body.removeChild(element);
+		}
 });

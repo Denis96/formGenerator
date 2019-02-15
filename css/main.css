@@ -13,30 +13,38 @@ button {
 	background-color: DarkTurquoise;
 	border-color: LightSeaGreen;
 	border-radius: 1em; 
+	border-width: 1px;
 }
-fieldset{
+fieldset {
 	margin: 2em 0;
 	padding: 2em 3em;
 	border-radius: 1em;
+	border-color: DarkTurquoise;
 }
-input, .input, .select-selected.select-arrow-active:after {
+
+.h2 {
+	font-size: 1.3em;
+	font-weight: bold;
+}
+
+input, .input, select {
 	width: auto;
-	padding: 0.5em 1em; 
-    border-color: DimGray;
-    border-width: 2px;
+	padding: 0.5em 1em;
+	border-width: 1px;
 }
-.delOption {
+.generateFormDiv {
+	text-align: center;
+}
+.buttonOption {
 	width: 2em;
-	height: : 2em;
+	height: 2em;
 	padding: 2px;
+}
+.buttonColorDel {
 	background-color: Salmon;
 	border-color: Crimson;
 }
-.delQuestion {
-	background-color: Salmon;
-	border-color: Crimson;
-}
-.swapQuestion {
+.buttonColorAdd {
 	background-color: MediumSpringGreen;
 	border-color: LimeGreen;
 }
@@ -49,19 +57,25 @@ input, .input, .select-selected.select-arrow-active:after {
 	border-width: 3px 0 0 2em;
 	border-radius: 1em; 
 }
+.subOption {
+	margin: 0 3.5em;
+}
 .middleContent {
 	text-align: center;
-	margin: 2em;
-}
-.rightPos {
-	border-radius: 0 1em 1em 0; 
+	margin: 1em;
 }
 .leftPos {
 	border-radius: 1em 0 0 1em; 
 }
+.middlePos {
+	border-radius: 0; 
+}
+.rightPos {
+	border-radius: 0 1em 1em 0; 
+}
 .main {
 	margin: 2em;
-	padding: 0;
+	padding: 1em 0;
 }
 .main > div {
 	padding: 2em;
@@ -75,4 +89,13 @@ input, .input, .select-selected.select-arrow-active:after {
 footer {
 	padding: 2em;
 	text-align: center;
+}
+/*   Disable: select text   *//*
+* {
+   -webkit-touch-callout: none;
+   -webkit-user-select: none;
+   -khtml-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
 }

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="./css/main.css">
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<script src="./js/jquery-3.3.1.min.js"></script>
+		<script src="./js/main.js"></script>
+	</head>
+
+	<body>
+
+		<div class="container">
+
+			<div class="middleContent">
+				<h2>FORM GENERATOR</h2>
+				
+			</div>
+			
+			<div class="main">
+			
+				<div class="menuOptions">
+					<button id="addForm">add question</button>
+					<p>Note: double click for edit the texts.</p>
+				</div>
+				
+				<div class="form">
+					<h2>Options:</h2>
+					<button class="addQuestion leftPos">add question</button>
+
+					<select class="input rightPos">
+						<option value="text">Text</option>
+						<option value="password">Password</option>
+						<option value="radio">Radio</option>
+						<option value="checkbox">Checkbox</option>
+						<option value="date">(H5) Date</option>
+						<option value="time">(H5) Time</option>
+						<option value="datetime">(H5) Datetime</option>
+						<option value="month">(H5) Month</option>
+						<option value="week">(H5) Week</option>
+						<option value="number">(H5) Number</option>
+						<option value="range">(H5) Range</option>
+						<option value="color">(H5) Color</option>
+						<option value="email">(H5) Email</option>
+						<option value="file">(H5) File</option>
+						<option value="tel">(H5) Tel</option>
+						<option value="url">(H5) Url</option>
+						<option value="search">(H5) Search</option>
+					</select>
+
+					<br>
+					<br>
+					<h2>Your corrent form:</h2>
+					<div id="form">
+					</div>
+				</div>
+				
+			</div>
+
+			<div class="middleContent">
+				<input id="formName" class="inputLeftPos" type="text" name="formName">
+				<button id="generateJSON" class="">Generate JSON</button>
+			</div>
+
+		</div>
+
+	</body>
+</html>
