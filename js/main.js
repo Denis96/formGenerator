@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
 	var showForm = null;
 	var form = null;
@@ -89,13 +88,100 @@ $(document).ready(function(){
 			delGrandParent.click(	removeGrandParentFunction 	);
 	}
 
-	function showFormFunction() {
-		var formName = $(this).parent().children("#formNameText").val();
-		if (formName != "") {
+	function GenerateFormFunction() {
+		var formName = $(this).parent().children(".formNameText").val();
+		formName != "" ? formName = "Form name" : "";
+
+		var divFormMain = document.createElement("div");
+			divFormMain.setAttribute("class", "divForm" );
+
+		var divForm = document.createElement("div");
+			divForm.setAttribute("class", "form" );
+
+		var h2FormName = document.createElement("h2");
+		h2FormName.setAttribute("class", "form" );
+			var formNameContent1 = document.createTextNode("Form name: ");
+			var formNameContentSpan = document.createElement("span");
+				formNameContentSpan.setAttribute("class", "showName" );
+
+				var formNameContent2 = document.createTextNode(formName);
+
+				var formNameHiddenInput = document.createElement("input");
+				formNameHiddenInput.setAttribute("type", "text" );
+				formNameHiddenInput.setAttribute("class", "hiddenName" );
+				formNameHiddenInput.setAttribute("hidden", "hidden" );
+
+				$(legend).append(formNameContent2);
+				$(legend).append(formNameContent2);
+				///////////////////////
+
+
+/*
+				<div class="divForm">
+						<div class="form">
+							<h2 class="formName">Form Name: 
+								<span class="showName">Form name</span>
+								<input type="text" class="hiddenName" hidden="hidden">
+							</h2>
+							<h3>
+								<span class="formName">Action: 
+									<span class="showName">google.es</span>
+									<input type="text" class="hiddenName" hidden="hidden">
+								</span>
+								 // 
+								<span class="formName">Method: 
+									<select class="input uniquePos">
+										<option value="get">get</option>
+										<option value="post">post</option>
+									</select>
+								</span>
+								 // 
+								<span class="formName">Target: 
+									<select class="input uniquePos">
+										<option value="black">_blank</option>
+										<option value="self">_self</option>
+										<option value="parent">_parent</option>
+										<option value="top">_top</option>
+									</select>
+								</span>
+							</h3>
+						</div>
+						<hr>
+						<div class="menuOptions">
+							<p>
+								<span class="h2">Options: </span>
+
+								<button class="addTextQuestion buttonColorAdd leftPos">add text</button>
+								<button class="addPasswordQuestion buttonColorAdd middlePos">add password</button>
+								<button class="addRadioQuestion buttonColorAdd middlePos">add radio</button>
+								<button class="addCheckboxQuestion buttonColorAdd rightPos">add checkbox</button>
+
+								<button id="addQuestion" class="leftPos">add other type</button>
+								<select class="input rightPos">
+									<option value="date">(H5) Date</option>
+									<option value="time">(H5) Time</option>
+									<option value="datetime">(H5) Datetime</option>
+									<option value="month">(H5) Month</option>
+									<option value="week">(H5) Week</option>
+									<option value="number">(H5) Number</option>
+									<option value="range">(H5) Range</option>
+									<option value="color">(H5) Color</option>
+									<option value="email">(H5) Email</option>
+									<option value="file">(H5) File</option>
+									<option value="tel">(H5) Tel</option>
+									<option value="url">(H5) Url</option>
+									<option value="search">(H5) Search</option>
+								</select>
+							</p>
+							<div class="middleContent">
+								<input type="text" class="leftPos" id="jsonName" name="jsonName" placeholder="Filename">
+								<button id="generateJSON" class="rightPos">Export form</button>
+							</div>
+						</div>
+					</div>*/
 			$("#formName > .showName").text(formName);
 			$(this).parent().remove();
 			$("#formContainer").removeAttr("hidden");
-		}
 	}
 
 	function generateQuestionFunction(typeQuestion) {
@@ -110,7 +196,7 @@ $(document).ready(function(){
 			var legendContent = document.createTextNode("Question name");
 
 			var buttonDelete = document.createElement("button");
-			buttonDelete.setAttribute("class", "delGrandParrent buttonOption buttonColorDel" );
+			buttonDelete.setAttribute("class", "delGrandParent buttonOption buttonColorDel" );
 			var buttonDeleteContent = document.createTextNode("X");
 			$(buttonDelete).append(buttonDeleteContent);
 
@@ -143,7 +229,7 @@ $(document).ready(function(){
 					var div = generateCheckboxFunction();
 					break;
 				default:
-					var div = generateRadioFunction(typeQuestion);
+					var div = generateOtherQuestionFunction(typeQuestion);
 			}
 			$(fieldset).append(div);
 
@@ -179,73 +265,12 @@ $(document).ready(function(){
 	}
 
 	function generateRadioFunction() {
-		//	Create "fieldset" element with id
-			var fieldset = document.createElement("fieldset");
-			fieldset.setAttribute("id", ("question"+questionsCounter) );
-
-			var legend = document.createElement("legend");
-			var legendSpan = document.createElement("span");
-			legendSpan.setAttribute("class", "showName legendSpan" );
-
-			var legendContent = document.createTextNode("Question name");
-
-			var buttonDelete = document.createElement("button");
-			buttonDelete.setAttribute("class", "delGrandParrent buttonColorDel" );
-			var buttonDeleteContent = document.createTextNode("X");
-			$(buttonDelete).append(buttonDeleteContent);
-
-
-			var hiddenName = document.createElement("input");
-			hiddenName.setAttribute("type", "text" );
-			hiddenName.setAttribute("hidden", "true" );
-			hiddenName.setAttribute("class", "hiddenName" );
-
-		
-			$(legendSpan).append(legendContent);
-			$(legend).append(buttonDelete);
-			$(legend).append(legendSpan);
-			$(legend).append(hiddenName);
-		$(fieldset).append(legend);
-		$(fieldset).append(		hiddenInputFuntion("questionId", questionsCounter)	);
-		$(fieldset).append(		hiddenInputFuntion("optionsNumber", 2)				);
-		$(fieldset).append(		hiddenInputFuntion("optionsType", "radio")			);
-
-		//	Create a "div" with 2 options
 			var div = document.createElement("div");
 			div.setAttribute("class", "options" );
 			for (var i = 1 ; i <= 2 ; i++) {
 				$(div).append( patternOptionRadioFunction(i, questionsCounter, "radio") );
 			}
-			$(fieldset).append(div);
-
-		//	Create a Add, Delete
-			var buttonAdd = document.createElement("button");
-			buttonAdd.setAttribute("class", "addOption" );
-			var buttonAddContent = document.createTextNode("add");
-			$(buttonAdd).append(buttonAddContent);
-
-			var buttonDelete = document.createElement("button");
-			buttonDelete.setAttribute("class", "buttonColorDel" );
-			var buttonDeleteContent = document.createTextNode("delete question");
-			$(buttonDelete).append(buttonDeleteContent);
-
-			/*var buttonSwap = document.createElement("button");
-			buttonSwap.setAttribute("class", "swapQuestion" );
-			var buttonSwapContent = document.createTextNode("swap");
-			$(buttonSwap).append(buttonSwapContent);*/
-		
-		var br = document.createElement("br");
-
-		$(fieldset).append(br);
-		$(fieldset).append(buttonAdd);
-		//$(fieldset).append(buttonSwap);
-
-		$(form).append(fieldset);
-
-		questionsCounter++;
-
-		updateEvents();
-
+			return div;
 	}
 
 	// Returns a div with 2 options
@@ -254,28 +279,16 @@ $(document).ready(function(){
 
 		//	Delete button
 			var buttonDelete = document.createElement("button");
-			buttonDelete.setAttribute("class", "delOption buttonOption buttonColorDel" );
+			buttonDelete.setAttribute("class", "delParent buttonOption buttonColorDel" );
 			var buttonDeleteContent = document.createTextNode("X");
 			$(buttonDelete).append(buttonDeleteContent);
 
 			if ( level!=2 ) { ////////////////////////// cambiar cuando se cambie la generacion de preguntas
-				//	Delete button
-					var buttonDelete = document.createElement("button");
-					buttonDelete.setAttribute("class", "delOption buttonOption buttonColorDel" );
-					var buttonDeleteContent = document.createTextNode("X");
-					$(buttonDelete).append(buttonDeleteContent);
-
 				//	Add button
 					var buttonAdd = document.createElement("button");
 					buttonAdd.setAttribute("class", "addSubOption buttonOption buttonColorAdd" );
 					var buttonAddContent = document.createTextNode("+");
 					$(buttonAdd).append(buttonAddContent);
-			} else {
-				//	Delete button
-					var buttonDelete = document.createElement("button");
-					buttonDelete.setAttribute("class", "delSubOption buttonOption buttonColorDel" );
-					var buttonDeleteContent = document.createTextNode("X");
-					$(buttonDelete).append(buttonDeleteContent);
 			}
 
 		//	Input (radio or checkbox (+15))
