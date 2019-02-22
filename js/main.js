@@ -48,26 +48,10 @@ $(document).ready(function(){
 			delGrandParent =	$(".delGrandParent");
 
 		//	Delete all assigned events 
-			formName.unbind();
-			legend.unbind();
-			label.unbind();
-			hiddenNames.unbind();
-
-			addTextQuestion.unbind();
-			addPasswordQuestion.unbind();
-			addRadioQuestion.unbind();
-			addCheckboxQuestion.unbind();
-				addQuestion.unbind();
-
-			addOption.unbind();
-				addSubOption.unbind();
-				delSubOption.unbind();
-
-			delParent.unbind();
-			delGrandParent.unbind();
+			$("*").unbind();
 
 		//	Returns assign events
-			showForm.click(		showFormFunction);
+			showForm.click(		GenerateFormFunction);
 			formName.dblclick(	changeNameShowInputFunction);
 			legend.dblclick(	changeNameShowInputFunction);
 			label.dblclick(		changeNameShowInputFunction);
@@ -89,99 +73,80 @@ $(document).ready(function(){
 	}
 
 	function GenerateFormFunction() {
-		var formName = $(this).parent().children(".formNameText").val();
-		formName != "" ? formName = "Form name" : "";
+		var formName = $(this).next().val();
+		formName == "" ? formName = "Form name" : "";
 
-		var divFormMain = document.createElement("div");
-			divFormMain.setAttribute("class", "divForm" );
+		console.log($(this).next().val());
 
-		var divForm = document.createElement("div");
-			divForm.setAttribute("class", "form" );
+		var form = "";
 
-		var h2FormName = document.createElement("h2");
-		h2FormName.setAttribute("class", "form" );
-			var formNameContent1 = document.createTextNode("Form name: ");
-			var formNameContentSpan = document.createElement("span");
-				formNameContentSpan.setAttribute("class", "showName" );
+		form += "<div class='divForm'>";
+			form += "<div class='divForm'>";
+				form += "<h2 class='formName'>Form Name: ";
+					form += "<span class='showName'>"+formName+"</span>";
+					form += "<input type='text' class='hiddenName' hidden='hidden'>";
+				form += "</h2>";
+				form += "<h3>";
+					form += "<span class='formName'>Action: ";
+						form += "<span class='showName'>google.es</span>";
+						form += "<input type='text' class='hiddenName' hidden='hidden'>";
+					form += "</span>";
+					form += " // ";
+					form += "<span class='formName'>Method: ";
+						form += "<select class='input uniquePos'>";
+							form += "<option value='get'>get</option>";
+							form += "<option value='post'>post</option>";
+						form += "</select>";
+					form += " // ";
+					form += "<span class='formName'>Method: ";
+						form += "<select class='input uniquePos'>";
+							form += "<option value='blank'>_blank</option>";
+							form += "<option value='self'>_self</option>";
+							form += "<option value='parent'>_parent</option>";
+							form += "<option value='top'>_top</option>";
+						form += "</select>";
+					form += "</span>";
+				form += "</h3>";
+			form += "</div>";
+			form += "<hr>";
+			form += "<div class='menuOptions'>";
+				form += "<p>";
+					form += "<span class='h2'>Options: </span>";
 
-				var formNameContent2 = document.createTextNode(formName);
+					form += "<button class='addTextQuestion buttonColorAdd leftPos'>add text</button> ";
+					form += "<button class='addPasswordQuestion buttonColorAdd middlePos'>add password</button> ";
+					form += "<button class='addRadioQuestion buttonColorAdd middlePos'>add radio</button> ";
+					form += "<button class='addCheckboxQuestion buttonColorAdd rightPos'>add checkbox</button> ";
 
-				var formNameHiddenInput = document.createElement("input");
-				formNameHiddenInput.setAttribute("type", "text" );
-				formNameHiddenInput.setAttribute("class", "hiddenName" );
-				formNameHiddenInput.setAttribute("hidden", "hidden" );
+					//////////////////////////// ADD "DEL BOTTON" PARENTS_UNTIL(".DIVFORM") ////////////////////////////////////
 
-				$(legend).append(formNameContent2);
-				$(legend).append(formNameContent2);
-				///////////////////////
+					form += "<button id='addQuestion' class='leftPos'>add other type</button> ";
+					form += "<select class='input rightPos'>";
+						form += "<option value='date'>(H5) Date</option>";
+						form += "<option value='time'>(H5) Time</option>";
+						form += "<option value='datetime'>(H5) Datetime</option>";
+						form += "<option value='month'>(H5) Month</option>";
+						form += "<option value='week'>(H5) Week</option>";
+						form += "<option value='number'>(H5) Number</option>";
+						form += "<option value='range'>(H5) Range</option>";
+						form += "<option value='color'>(H5) Color</option>";
+						form += "<option value='email'>(H5) Email</option>";
+						form += "<option value='file'>(H5) File</option>";
+						form += "<option value='tel'>(H5) Tel</option>";
+						form += "<option value='url'>(H5) Url</option>";
+						form += "<option value='search'>(H5) Search</option>";
+					form += "</select>";
+				form += "</p>";
+				form += "<div class='middleContent'>";
+					form += "<input type='text' class='leftPos' id='jsonName' name='jsonName' placeholder='Filename'>";
+					form += "<button id='generateJSON' class='rightPos'>Export form</button>";
+				form += "</div>";
+			form += "</div>";
+		form += "</div>";
 
-
-/*
-				<div class="divForm">
-						<div class="form">
-							<h2 class="formName">Form Name: 
-								<span class="showName">Form name</span>
-								<input type="text" class="hiddenName" hidden="hidden">
-							</h2>
-							<h3>
-								<span class="formName">Action: 
-									<span class="showName">google.es</span>
-									<input type="text" class="hiddenName" hidden="hidden">
-								</span>
-								 // 
-								<span class="formName">Method: 
-									<select class="input uniquePos">
-										<option value="get">get</option>
-										<option value="post">post</option>
-									</select>
-								</span>
-								 // 
-								<span class="formName">Target: 
-									<select class="input uniquePos">
-										<option value="black">_blank</option>
-										<option value="self">_self</option>
-										<option value="parent">_parent</option>
-										<option value="top">_top</option>
-									</select>
-								</span>
-							</h3>
-						</div>
-						<hr>
-						<div class="menuOptions">
-							<p>
-								<span class="h2">Options: </span>
-
-								<button class="addTextQuestion buttonColorAdd leftPos">add text</button>
-								<button class="addPasswordQuestion buttonColorAdd middlePos">add password</button>
-								<button class="addRadioQuestion buttonColorAdd middlePos">add radio</button>
-								<button class="addCheckboxQuestion buttonColorAdd rightPos">add checkbox</button>
-
-								<button id="addQuestion" class="leftPos">add other type</button>
-								<select class="input rightPos">
-									<option value="date">(H5) Date</option>
-									<option value="time">(H5) Time</option>
-									<option value="datetime">(H5) Datetime</option>
-									<option value="month">(H5) Month</option>
-									<option value="week">(H5) Week</option>
-									<option value="number">(H5) Number</option>
-									<option value="range">(H5) Range</option>
-									<option value="color">(H5) Color</option>
-									<option value="email">(H5) Email</option>
-									<option value="file">(H5) File</option>
-									<option value="tel">(H5) Tel</option>
-									<option value="url">(H5) Url</option>
-									<option value="search">(H5) Search</option>
-								</select>
-							</p>
-							<div class="middleContent">
-								<input type="text" class="leftPos" id="jsonName" name="jsonName" placeholder="Filename">
-								<button id="generateJSON" class="rightPos">Export form</button>
-							</div>
-						</div>
-					</div>*/
-			$("#formName > .showName").text(formName);
-			$(this).parent().remove();
-			$("#formContainer").removeAttr("hidden");
+		$("#formContainer > .main").append(form);
+		$("#formContainer").removeAttr("hidden");
+		updateEvents();
 	}
 
 	function generateQuestionFunction(typeQuestion) {
